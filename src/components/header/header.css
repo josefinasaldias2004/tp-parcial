@@ -1,0 +1,59 @@
+@import url("../../css/global.css");
+
+header{
+    height: 30px;
+    width: 100%;
+    color: var(--primary-color);
+    font-family: 'Bitcount Grid Double';
+    margin-bottom: 30px;
+}
+a{
+    all:unset;
+}
+
+nav{
+    display: flex;
+    border-radius: 5px;
+    border: var(--borde);
+    gap: 10px;
+}
+
+.boton {
+    display: flex;
+
+}
+.boton p{ 
+    display: flex;
+    width: 30px;
+    height: 30px;
+    background-color: #090909;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    margin: 5px;
+    border: var(--borde);
+}
+.boton .p-sitio {
+    opacity: 0;
+    font-size: 0;
+    transform: translateX(-30px);
+    transition: all 0.6s ease;
+    width: 0;
+}
+
+.boton:hover p{
+    border: var(--borde-sec);
+    color: var(--secondary-color);
+    cursor: pointer;
+}
+
+.boton p:hover{
+    background: var(--degraded);
+}
+
+.boton:hover .p-sitio{
+    transform: translateX(0);
+    opacity: 1;
+    font-size: 1.2rem;
+    width: 100px;
+}

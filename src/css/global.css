@@ -1,0 +1,7 @@
+:root{
+    --primary-color: #ff6080;
+    --secondary-color: #ff7ab8;
+    --degraded:  linear-gradient(90deg, #c61c3e, #f83939);
+    --borde:2px var(--primary-color) solid;
+    --borde-sec: 2px var(--secondary-color) solid;
+}
