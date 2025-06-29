@@ -1,8 +1,9 @@
 @import url("../../css/global.css");
+@import url("../../css/main.css");
 
 header{
     height: 30px;
-    width: 100%;
+    width: 95%;
     color: var(--primary-color);
     font-family: 'Bitcount Grid Double';
     margin-bottom: 30px;
