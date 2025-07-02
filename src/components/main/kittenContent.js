@@ -1,10 +1,9 @@
 import "./mainContent.css";
-
 export function createKittensContent() {
   const main = document.createElement("main");
 
   const topBar = document.createElement("div");
-  topBar.classList.add("top-bar");
+  topBar.className = "top-bar";
   topBar.innerHTML = `
     <h1>Galería de Gatitos</h1>
     <div class="search-box">
@@ -12,47 +11,71 @@ export function createKittensContent() {
       <ul id="suggestions" class="suggestions"></ul>
     </div>
   `;
-  //agregar luego un icono con una lupa el cual si le haces click se envia
 
   const gallery = document.createElement("div");
-  gallery.classList.add("cat-gallery");
+  gallery.className = "cat-gallery";
 
   const loader = document.createElement("div");
-  loader.classList.add("loader");
+  loader.className = "loader";
   loader.textContent = "Cargando...";
   loader.style.display = "none";
 
   const navButtons = document.createElement("div");
-  navButtons.classList.add("nav-buttons");
+  navButtons.className = "nav-buttons";
   navButtons.innerHTML = `
     <button id="prevBtn">⟨ Anterior</button>
     <button id="nextBtn">Siguiente ⟩</button>
   `;
 
-  main.appendChild(topBar);
-  main.appendChild(loader);
-  main.appendChild(gallery);
-  main.appendChild(navButtons);
+  main.append(topBar, loader, gallery, navButtons);
 
   let breeds = [];
   let currentPage = 0;
   const limit = 12;
-  const pageCache = {}; // ← Cache de páginas
+  const pageCache = {};
 
   fetch("https://api.thecatapi.com/v1/breeds")
     .then((res) => res.json())
-    .then((data) => {
-      breeds = data;
-    });
+    .then((data) => (breeds = data));
+
+  function toggleFavorite(cat) {
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    const exists = favorites.find((fav) => fav.id === cat.id);
+
+    if (exists) {
+      favorites = favorites.filter((fav) => fav.id !== cat.id);
+    } else {
+      favorites.push(cat);
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }
 
   function renderCats(data) {
     gallery.innerHTML = "";
-    const maxCards = 8;
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-    data.slice(0, maxCards).forEach((cat) => {
+    data.forEach((cat) => {
       const card = document.createElement("div");
       card.classList.add("cat-card");
-      card.innerHTML = `<img src="${cat.url}" alt="Cat" />`;
+
+      const img = document.createElement("img");
+      img.src = cat.url;
+
+      const favBtn = document.createElement("button");
+      favBtn.className = "fav-btn";
+      favBtn.textContent = "❤";
+
+      if (favorites.some((f) => f.id === cat.id)) {
+        favBtn.classList.add("favorited");
+      }
+
+      favBtn.onclick = () => {
+        toggleFavorite(cat);
+        favBtn.classList.toggle("favorited");
+      };
+
+      card.append(img, favBtn);
       gallery.appendChild(card);
     });
   }
@@ -87,9 +110,7 @@ export function createKittensContent() {
         gallery.innerHTML = `<p style="color:red">Error al cargar gatitos ᓚ₍ ^. _.^₎</p>`;
         console.error(err);
       })
-      .finally(() => {
-        hideLoader();
-      });
+      .finally(hideLoader);
   }
 
   navButtons.querySelector("#prevBtn").addEventListener("click", () => {
@@ -115,7 +136,6 @@ export function createKittensContent() {
     if (query.length < 2) return;
 
     const filtered = breeds.filter((b) => b.name.toLowerCase().includes(query));
-
     if (filtered.length === 0) return;
 
     filtered.slice(0, 5).forEach((breed) => {
@@ -149,9 +169,7 @@ export function createKittensContent() {
             gallery.innerHTML = `<p style="color:red">Error al buscar raza /ᐠ╥ ˕ ╥;マ </p>`;
             console.error(err);
           })
-          .finally(() => {
-            hideLoader();
-          });
+          .finally(hideLoader);
       } else {
         suggestions.innerHTML = `<li style="color:red">No se encontró la raza exacta</li>`;
         suggestions.classList.add("show");

@@ -1,6 +1,6 @@
-import './footer.css'; // importa los estilos del footer
+import './footer.css';
 
-// vreal el footer
+
 export function createFooter() {
   const footer = document.createElement('footer');
   footer.innerHTML = '&copy; 2025 Mi sitio. Todos los derechos reservados.';
