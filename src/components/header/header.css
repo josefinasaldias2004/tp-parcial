@@ -1,60 +1,66 @@
 @import url("../../css/global.css");
 @import url("../../css/main.css");
 
-header{
-    height: 30px;
-    width: 95%;
-    color: var(--primary-color);
-    font-family: 'Bitcount Grid Double';
-    margin-bottom: 30px;
-}
-a{
-    all:unset;
+header {
+  width: 100vw;
+  color: var(--primary-color);
+  font-family: "Bitcount Grid Double";
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
 }
 
-nav{
-    display: flex;
-    border-radius: 5px;
-    border: var(--borde);
-    gap: 10px;
+nav {
+  display: flex;
+  width: 90vw;
+  gap: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: var(--borde);
 }
 
 .boton {
-    display: flex;
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
 
+.boton p {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  background-color: #090909;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  margin: 5px;
+  border: var(--borde);
 }
-.boton p{ 
-    display: flex;
-    width: 30px;
-    height: 30px;
-    background-color: #090909;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    margin: 5px;
-    border: var(--borde);
-}
+
 .boton .p-sitio {
-    opacity: 0;
-    font-size: 0;
-    transform: translateX(-30px);
-    transition: all 0.6s ease;
-    width: 0;
+  opacity: 0;
+  font-size: 0;
+  transform: translateX(-30px);
+  transition: all 0.6s ease;
+  width: 0;
+  white-space: nowrap;
 }
 
-.boton:hover p{
-    border: var(--borde-sec);
-    color: var(--secondary-color);
-    cursor: pointer;
+.boton:hover p {
+  border: var(--borde-sec);
+  color: var(--secondary-color);
+  cursor: pointer;
 }
 
-.boton p:hover{
-    background: var(--degraded);
+.boton p:hover {
+  background: var(--degraded);
 }
 
-.boton:hover .p-sitio{
-    transform: translateX(0);
-    opacity: 1;
-    font-size: 1.2rem;
-    width: 100px;
+.boton:hover .p-sitio {
+  transform: translateX(0);
+  opacity: 1;
+  font-size: 1.2rem;
+  width: auto;
+  padding-left: 5px;
 }

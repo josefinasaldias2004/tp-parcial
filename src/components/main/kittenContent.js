@@ -1,4 +1,5 @@
 import "./mainContent.css";
+
 export function createKittensContent() {
   const main = document.createElement("main");
 

@@ -1,3 +1,4 @@
+import "./mainContent.css";
 export function createFunfactsMain() {
   const main = document.createElement("main");
   main.className = "fun-page";

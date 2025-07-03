@@ -1,26 +1,34 @@
-import "./header.css"; 
-
+import "./header.css";
 export function createHeader() {
   const header = document.createElement("header");
   header.innerHTML = `
     <nav>
-      <div class="boton home">
+      <div class="boton home" data-section="home">
         <p class="icons">⌂</p>
-        <a href="/index.html"><p class="p-sitio">home</p></a>
+        <p class="p-sitio">home</p>
       </div>
-      <div class="boton cats">
+      <div class="boton cats" data-section="kittens">
         <p class="icons">=ᗢ=</p>
-        <a href="/paginas/kittens.html"><p class="p-sitio">kittens</p></a>
+        <p class="p-sitio">kittens</p>
       </div>
-      <div class="boton funfact">
+      <div class="boton funfact" data-section="funfacts">
         <p class="icons">✰</p>
-        <a href="/paginas/funfact.html"><p class="p-sitio">funfact</p></a>
+        <p class="p-sitio">funfact</p>
       </div>
-      <div class="boton favorito">
-        <p class="icons">✰</p>
-        <a href="/paginas/favoritos.html"><p class="p-sitio">fav</p></a>
+      <div class="boton favoritos" data-section="favoritos">
+        <p class="icons">❤</p>
+        <p class="p-sitio">favoritos</p>
       </div>
     </nav>
   `;
+
+  header.querySelectorAll(".boton").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const section = btn.dataset.section;
+      history.pushState({}, "", `#${section}`);
+      window.dispatchEvent(new Event("popstate"));
+    });
+  });
+
   return header;
 }
