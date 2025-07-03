@@ -56,7 +56,7 @@ export function createFunfactsMain() {
 
       const emoji = document.createElement("span");
       emoji.className = "comment-emoji";
-      emoji.textContent = "🐱";
+      emoji.textContent = "₊˚ʚ ᗢ₊˚✧.";
 
       const text = document.createElement("p");
       text.className = "comment-text";

@@ -8,8 +8,13 @@ export function createMainContent() {
       <div class="cute inicio">
         <h1>Inicio</h1>
         <div>
-          <a href="#"><p class="boton" data-section="kittens">Mira nuestros michis</p></a>
-          <a href="#"><p class="boton" data-section="funfacts">Lee nuestros cumplidos de michis</p></a>
+        <p>Antes solían ser las cosas más faciles, ¿verdad?<br>
+        Internet solia ser un lugar bonito en donde las cosas eran más sencillas.<br>
+        Las redes sociales pueden ser estresantes, compararse con los demás, ver noticias crueles, odio, amargura…<br>
+        pero tienen algo muy bueno… ¡Gatitos! <br>
+        Entonces, por que no una pagina con un estilo algo retro, que puede revivir la simpleza de las cosas lindas, como <a class="boton" data-section="kittens"> ver imagenes de gatitos</a>, o <a class="boton" data-section="kittens">aprender cosas acerca de ellos! </a>
+        <p>
+        
         </div>
       </div>
     </div>

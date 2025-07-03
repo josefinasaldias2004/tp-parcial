@@ -48,14 +48,14 @@ h1 {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 0.9vw;
+  text-align: center;
 }
 
 .inicio div {
   width: 90%;
-  height: 50%;
+  height: 80%;
   display: flex;
   flex-direction: column;
-  justify-content: end;
   margin: auto;
 }
 
@@ -64,23 +64,32 @@ a:hover {
   text-decoration: underline;
 }
 
-@media screen and (max-width: 768px) {
+@media (max-width: 945px){
+  .inicio {
+    height:fit-content;
+  }
+}
+
+@media (max-width: 768px) {
   .mainContent {
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
   }
 
   .cute {
     width: 90%;
-    height: 200px;
+    height:300px;
   }
 
   .kitten {
     text-align: center;
     font-size: 1.3vw;
   }
-
+  .inicio{
+    height:fit-content;
+  }
+  
   footer {
     font-size: 0.9rem;
     text-align: center;

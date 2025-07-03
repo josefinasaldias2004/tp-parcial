@@ -5,7 +5,7 @@ header {
   width: 100vw;
   color: var(--primary-color);
   font-family: "Bitcount Grid Double";
-  margin-bottom: 30px;
+  margin: auto; 
   display: flex;
   justify-content: center;
 }
