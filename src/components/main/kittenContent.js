@@ -7,9 +7,14 @@ export function createKittensContent() {
   topBar.className = "top-bar";
   topBar.innerHTML = `
     <h1>Galería de Gatitos</h1>
-    <div class="search-box">
-      <input type="text" id="search" placeholder="Buscar raza..." autocomplete="off" />
-      <ul id="suggestions" class="suggestions"></ul>
+    <div class="search-container">
+      <div class="search-box">
+        <input type="text" id="search" placeholder="Buscar raza..." autocomplete="off" />
+        <ul id="suggestions" class="suggestions"></ul>
+      </div>
+      <select id="breedSelect" class="breed-select">
+        <option value="">Todas las razas</option>
+      </select>
     </div>
   `;
 
@@ -24,7 +29,7 @@ export function createKittensContent() {
   const navButtons = document.createElement("div");
   navButtons.className = "nav-buttons";
   navButtons.innerHTML = `
-    <button id="prevBtn">⟨ Anterior</button>
+    <button id="prevBtn" style="display:none">⟨ Anterior</button>
     <button id="nextBtn">Siguiente ⟩</button>
   `;
 
@@ -35,9 +40,19 @@ export function createKittensContent() {
   const limit = 12;
   const pageCache = {};
 
+  const breedSelect = topBar.querySelector("#breedSelect");
+
   fetch("https://api.thecatapi.com/v1/breeds")
     .then((res) => res.json())
-    .then((data) => (breeds = data));
+    .then((data) => {
+      breeds = data;
+      data.forEach((breed) => {
+        const option = document.createElement("option");
+        option.value = breed.id;
+        option.textContent = breed.name;
+        breedSelect.appendChild(option);
+      });
+    });
 
   function toggleFavorite(cat) {
     let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -91,39 +106,54 @@ export function createKittensContent() {
     gallery.style.display = "flex";
   }
 
-  function fetchCats(page = 0) {
-    if (pageCache[page]) {
-      renderCats(pageCache[page]);
+  function fetchCats(page = 0, breedId = "") {
+    const cacheKey = `${breedId}-${page}`;
+    if (pageCache[cacheKey]) {
+      renderCats(pageCache[cacheKey]);
+      updateNavButtons();
       return;
     }
 
     showLoader();
 
-    fetch(
-      `https://api.thecatapi.com/v1/images/search?limit=${limit}&page=${page}&order=Desc`
-    )
+    let url = `https://api.thecatapi.com/v1/images/search?limit=${limit}&page=${page}&order=Desc`;
+    if (breedId) url += `&breed_ids=${breedId}`;
+
+    fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        pageCache[page] = data;
+        pageCache[cacheKey] = data;
         renderCats(data);
       })
       .catch((err) => {
         gallery.innerHTML = `<p style="color:red">Error al cargar gatitos ᓚ₍ ^. _.^₎</p>`;
         console.error(err);
       })
-      .finally(hideLoader);
+      .finally(() => {
+        hideLoader();
+        updateNavButtons();
+      });
+  }
+
+  function updateNavButtons() {
+    const prevBtn = navButtons.querySelector("#prevBtn");
+    if (currentPage === 0) {
+      prevBtn.style.display = "none";
+    } else {
+      prevBtn.style.display = "inline-block";
+    }
   }
 
   navButtons.querySelector("#prevBtn").addEventListener("click", () => {
     if (currentPage > 0) {
       currentPage--;
-      fetchCats(currentPage);
+      fetchCats(currentPage, breedSelect.value);
     }
   });
 
   navButtons.querySelector("#nextBtn").addEventListener("click", () => {
     currentPage++;
-    fetchCats(currentPage);
+    fetchCats(currentPage, breedSelect.value);
   });
 
   const searchInput = topBar.querySelector("#search");
@@ -144,14 +174,23 @@ export function createKittensContent() {
       li.textContent = breed.name;
       li.addEventListener("click", () => {
         searchInput.value = breed.name;
+        breedSelect.value = breed.id;
         suggestions.innerHTML = "";
         suggestions.classList.remove("show");
+        currentPage = 0;
+        fetchCats(currentPage, breed.id);
       });
       suggestions.appendChild(li);
     });
 
     suggestions.classList.add("show");
   });
+
+  breedSelect.addEventListener("change", () => {
+    currentPage = 0;
+    fetchCats(currentPage, breedSelect.value);
+  });
+  
 
   searchInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
@@ -160,23 +199,16 @@ export function createKittensContent() {
       const match = breeds.find((b) => b.name.toLowerCase() === value);
 
       if (match) {
-        showLoader();
-        fetch(
-          `https://api.thecatapi.com/v1/images/search?limit=${limit}&breed_ids=${match.id}`
-        )
-          .then((res) => res.json())
-          .then(renderCats)
-          .catch((err) => {
-            gallery.innerHTML = `<p style="color:red">Error al buscar raza /ᐠ╥ ˕ ╥;マ </p>`;
-            console.error(err);
-          })
-          .finally(hideLoader);
+        breedSelect.value = match.id;
+        currentPage = 0;
+        fetchCats(currentPage, match.id);
       } else {
         suggestions.innerHTML = `<li style="color:red">No se encontró la raza exacta</li>`;
         suggestions.classList.add("show");
       }
     }
   });
+
 
   document.addEventListener("click", (e) => {
     if (!topBar.contains(e.target)) {

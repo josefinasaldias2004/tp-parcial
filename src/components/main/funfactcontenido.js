@@ -22,6 +22,9 @@ export function createFunfactsMain() {
     <button id="nextBtn">Siguiente ⟩</button>
   `;
 
+  const prevBtn = navButtons.querySelector("#prevBtn");
+  const nextBtn = navButtons.querySelector("#nextBtn");
+
   main.append(topBar, loader, gallery, navButtons);
 
   let currentPage = 0;
@@ -35,19 +38,14 @@ export function createFunfactsMain() {
   function toggleFavorite(fact) {
     let favorites = getFavorites();
     const exists = favorites.includes(fact);
-
-    if (exists) {
-      favorites = favorites.filter((f) => f !== fact);
-    } else {
-      favorites.push(fact);
-    }
-
+    favorites = exists
+      ? favorites.filter((f) => f !== fact)
+      : [...favorites, fact];
     localStorage.setItem("funfact_favorites", JSON.stringify(favorites));
   }
 
   function renderFacts(factsList) {
     gallery.innerHTML = "";
-
     const favorites = getFavorites();
 
     factsList.forEach((fact) => {
@@ -87,7 +85,28 @@ export function createFunfactsMain() {
     gallery.style.display = "flex";
   }
 
+  async function translateText(text) {
+    try {
+      const res = await fetch("https://libretranslate.de/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          q: text,
+          source: "en",
+          target: "es",
+          format: "text"
+        })
+      });
+      const data = await res.json();
+      return data.translatedText || text;
+    } catch {
+      return text;
+    }
+  }
+
   async function fetchFacts(page = 0) {
+    prevBtn.style.display = page === 0 ? "none" : "inline-block";
+
     if (pageCache[page]) {
       renderFacts(pageCache[page]);
       return;
@@ -119,7 +138,7 @@ export function createFunfactsMain() {
           try {
             const res = await fetch("https://catfact.ninja/fact");
             const data = await res.json();
-            return data.fact;
+            return await translateText(data.fact);
           } catch {
             return "No se pudo cargar el cumplido 😿";
           }
@@ -127,27 +146,25 @@ export function createFunfactsMain() {
       );
 
       const catFacts = await Promise.all(factPromises);
-
       const combined = [...breedFacts, ...catFacts].sort(() => 0.5 - Math.random());
 
       pageCache[page] = combined;
       renderFacts(combined);
     } catch (err) {
-      console.error("Error al cargar facts:", err);
       renderFacts(["No se pudieron cargar los cumplidos 😿"]);
     } finally {
       hideLoader();
     }
   }
 
-  navButtons.querySelector("#prevBtn").addEventListener("click", () => {
+  prevBtn.addEventListener("click", () => {
     if (currentPage > 0) {
       currentPage--;
       fetchFacts(currentPage);
     }
   });
 
-  navButtons.querySelector("#nextBtn").addEventListener("click", () => {
+  nextBtn.addEventListener("click", () => {
     currentPage++;
     fetchFacts(currentPage);
   });

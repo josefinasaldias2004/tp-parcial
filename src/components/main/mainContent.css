@@ -20,9 +20,15 @@ main {
   box-sizing: border-box;
 }
 
+input,
+a,
+button,
+select {
+  all: unset;
+}
+
 .top-bar {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 10px;
@@ -35,10 +41,9 @@ main {
   margin: 0;
 }
 
-input,
-a,
-button {
-  all: unset;
+.top-bar div {
+  display:flex;
+  gap:20px;
 }
 
 .top-bar input {
@@ -95,6 +100,32 @@ button {
   background-color: #121212;
   color: white;
 }
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box input {
+  flex: 1;
+  padding-right: 40px; /* espacio para el botón */
+}
+
+.search-box .search-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+.search-box .search-btn:hover {
+  color: var(--secondary-color);
+}
+
 
 .suggestions {
   display: none;
@@ -214,4 +245,51 @@ button {
 .comment-text {
   font-size: 1.1rem;
   line-height: 1.4;
+}
+.search-tools {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#breedSelect {
+  padding: 8px 12px;
+  background-color: #121212;
+  color: white;
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  font-family: inherit;
+}
+.breed-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #1a1a1a;
+  border: 1px solid var(--secondary-color);
+  border-radius: 5px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 99;
+  list-style: none;
+  padding: 0;
+  margin-top: 5px;
+  width: 200px;
+  display: none;
+}
+
+.breed-menu.show {
+  display: block;
+}
+
+.breed-menu li {
+  padding: 10px;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+  color: var(--primary-color);
+  font-family: inherit;
+}
+
+.breed-menu li:hover {
+  background-color: #333;
 }
