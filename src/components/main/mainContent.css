@@ -65,7 +65,7 @@ button {
   border-radius: 10px;
   background-color: #1a1a1a;
   overflow: hidden;
-  width: 100%;
+  width: 40vw;
   height: fit-content;
   transition: transform 0.3s ease;
 }
@@ -200,6 +200,7 @@ button {
 .cat-card.comment {
   border: 2px solid var(--primary-color);
   border-radius: 16px;
+  width:100%;
   padding: 1rem;
   display: flex;
   gap: 1rem;

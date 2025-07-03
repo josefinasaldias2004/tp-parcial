@@ -63,7 +63,7 @@ export function createFavoritesContent() {
 
   if (storedFacts.length === 0) {
     const message = document.createElement("p");
-    message.textContent = "Todavía no guardaste cumplidos favoritos (｡•́︿•̀｡)";
+    message.textContent = "Todavía no guardaste tus factos favoritos (｡•́︿•̀｡)";
     message.style.color = "gray";
     message.style.textAlign = "center";
     factGallery.appendChild(message);
