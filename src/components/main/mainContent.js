@@ -8,8 +8,8 @@ export function createMainContent() {
       <div class="cute inicio">
         <h1>Inicio</h1>
         <div>
-          <a href="#"><p>Mira nuestros michis</p></a>
-          <a href="#"><p>Lee nuestros cumplidos de michis</p></a>
+          <a href="#"><p class="boton" data-section="kittens">Mira nuestros michis</p></a>
+          <a href="#"><p class="boton" data-section="funfacts">Lee nuestros cumplidos de michis</p></a>
         </div>
       </div>
     </div>

@@ -10,5 +10,8 @@
   },
   "devDependencies": {
     "vite": "^7.0.0"
+  },
+  "dependencies": {
+    "translate": "^3.0.1"
   }
 }
