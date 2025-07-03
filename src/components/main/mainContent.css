@@ -65,6 +65,7 @@ button {
   border-radius: 10px;
   background-color: #1a1a1a;
   overflow: hidden;
+  max-width: 40vw;
   height: fit-content;
   transition: transform 0.3s ease;
 }
