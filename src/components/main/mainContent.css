@@ -29,6 +29,7 @@ select {
 
 .top-bar {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 10px;
@@ -42,8 +43,8 @@ select {
 }
 
 .top-bar div {
-  display:flex;
-  gap:20px;
+  display: flex;
+  gap: 20px;
 }
 
 .top-bar input {
@@ -70,7 +71,7 @@ select {
   border-radius: 10px;
   background-color: #1a1a1a;
   overflow: hidden;
-  width: 40vw;
+  width: 35vw;
   height: fit-content;
   transition: transform 0.3s ease;
 }
@@ -125,7 +126,6 @@ select {
 .search-box .search-btn:hover {
   color: var(--secondary-color);
 }
-
 
 .suggestions {
   display: none;
@@ -214,7 +214,6 @@ select {
 
 .fact-card {
   border: var(--primary-color) 1px solid;
-
 }
 
 .btn-load {
@@ -225,13 +224,12 @@ select {
 
 .btn-load:hover {
   border: var(--secondary-color) 2px solid;
-
 }
 
 .cat-card.comment {
   border: 2px solid var(--primary-color);
   border-radius: 16px;
-  width:100%;
+  width: 100%;
   padding: 1rem;
   display: flex;
   gap: 1rem;
